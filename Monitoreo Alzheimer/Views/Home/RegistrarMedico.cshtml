@@ -1,0 +1,244 @@
+﻿@model Dominio.Entity.Medico
+
+@{
+    Layout = null;
+}
+
+@if (ViewBag.Indicador == 1)
+{
+    <script type="text/javascript">
+        window.onload = function() {
+            swal(  "Buen trabajo!", "Registro realizado con exito!", "success");
+        };
+    </script>
+
+}
+else if (ViewBag.Indicador == 2)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            swal("Advertencia!", "El DNI y Usuario ingresados ya se encuentran registrados!", "warning");
+        };      
+    </script>
+}
+else if (ViewBag.Indicador == 3)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            swal("Error!", "Servicio no disponible!", "error");
+        };          
+    </script>
+}
+
+<!DOCTYPE html>
+<html dir="ltr">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/assets/images/Logo ALZCare (formato PNG).png">
+    <title>ALZCare</title>
+    <!-- Custom CSS -->
+    <link href="~/Content/dist/css/style.min.css" rel="stylesheet">
+    <script src="~/Content/sweetalert.min.js"></script>
+
+</head>
+
+<body>
+    <div class="main-wrapper">
+     
+        <div class="preloader">
+            <div class="lds-ripple">
+                <div class="lds-pos"></div>
+                <div class="lds-pos"></div>
+            </div>
+        </div>
+        
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative"
+             style="background:no-repeat center center;">
+            <div class="auth-box row text-center">
+                <div class="col-lg-6 col-md-6" style="background-image: url(../../Content/assets/images/doc.jpg);background-size:auto;background-repeat: no-repeat;">
+
+                    @*<center>
+                        <img src="~/Content/assets/images/Logo ALZCare (formato PNG).png" alt="wrapkit" width="460" height="460" style="display:block;margin:auto;">
+
+                    </center>*@
+                </div>
+
+                <div class="col-lg-6 col-md-6 bg-white">
+                    <div class="p-3">
+                        <img src="~/Content/assets/images/Logo ALZCare (formato PNG).png" alt="wrapkit" width="100" height="100">
+                        <h3 class="mt-3 text-center">Registrate</h3>
+
+                        @using (Html.BeginForm("RegistrarMedico", "Home", FormMethod.Post, new { @class = "mt-4" }))
+                        {
+
+                            <div class="row">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Nombres", @required = "required", @maxlength = "20" } })
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            @Html.EditorFor(model => model.apellido, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Apellidos", @required = "required", @maxlength = "20" } })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            @Html.EditorFor(model => model.correo, new { htmlAttributes = new { @class = "form-control", @type = "email", @placeholder = "Correo", @required = "required", @maxlength = "50" } })
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            @Html.EditorFor(model => model.telefono, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Teléfono", @required = "required", @minlength = "9", @maxlength = "9" } })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            @Html.EditorFor(model => model.EntidadLaboral, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Entidad laboral", @required = "required", @maxlength = "20" } })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+
+                                            @Html.DropDownListFor(x => x.grado, new SelectListItem[]{
+                                                new SelectListItem() {Text = "Bachiller", Value="Bachiller"},
+                                                new SelectListItem() {Text = "Titulado", Value="Titulado"},
+                                                new SelectListItem() {Text = "Doctor", Value="Doctor"},
+                                                new SelectListItem() {Text = "Magister", Value="Magister"}}, new { @class = "form-control", @id = "exampleFormControlSelect1" })
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            @Html.EditorFor(model => model.DNI, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "DNI", @required = "required", @minlength = "8", @maxlength = "8" } })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            @Html.DropDownListFor(x => x.distrito, new SelectListItem[]{
+                                                        new SelectListItem() {Text = "Ancón", Value="Ancón"},
+                                                        new SelectListItem() {Text = "Ate", Value="Ate"},
+                                                        new SelectListItem() {Text = "Barranco", Value="Barranco"},
+                                                        new SelectListItem() {Text = "Bellavista", Value="Bellavista"},
+                                                        new SelectListItem() {Text = "Breña", Value="Breña"},
+                                                        new SelectListItem() {Text = "Callao", Value="Callao"},
+                                                        new SelectListItem() {Text = "Carabayllo", Value="Carabayllo"},
+                                                        new SelectListItem() {Text = "Carmen de La Legua", Value="Carmen de La Legua"},
+                                                        new SelectListItem() {Text = "Chaclacayo", Value="Chaclacayo"},
+                                                        new SelectListItem() {Text = "Chorrillos", Value="Chorrillos"},
+                                                        new SelectListItem() {Text = "Cieneguilla", Value="Cieneguilla"},
+                                                        new SelectListItem() {Text = "Comas", Value="Comas"},
+                                                        new SelectListItem() {Text = "El Agustino", Value="El Agustino"},
+                                                        new SelectListItem() {Text = "Independencia", Value="Independencia"},
+                                                        new SelectListItem() {Text = "Jesús María", Value="Jesús María"},
+                                                        new SelectListItem() {Text = "La Molina", Value="La Molina"},
+                                                        new SelectListItem() {Text = "La Perla", Value="La Perla"},
+                                                        new SelectListItem() {Text = "La Punta", Value="La Punta"},
+                                                        new SelectListItem() {Text = "La Victoria", Value="La Victoria"},
+                                                        new SelectListItem() {Text = "Lima", Value="Lima"},
+                                                        new SelectListItem() {Text = "Lince", Value="Lince"},
+                                                        new SelectListItem() {Text = "Los Olivos", Value="Los Olivos"},
+                                                        new SelectListItem() {Text = "Lurigancho", Value="Lurigancho"},
+                                                        new SelectListItem() {Text = "Lurín", Value="Lurín"},
+                                                        new SelectListItem() {Text = "Magdalena del Mar", Value="Magdalena del Mar"},
+                                                        new SelectListItem() {Text = "Mi Perú", Value="Mi Perú"},
+                                                        new SelectListItem() {Text = "Miraflores", Value="Miraflores"},
+                                                        new SelectListItem() {Text = "Pachacámac", Value="Pachacámac"},
+                                                        new SelectListItem() {Text = "Pucusana", Value="Pucusana"},
+                                                        new SelectListItem() {Text = "Pueblo Libre", Value="Pueblo Libre"},
+                                                        new SelectListItem() {Text = "Puente Piedra", Value="Puente Piedra"},
+                                                        new SelectListItem() {Text = "Punta Hermosa", Value="Punta Hermosa"},
+                                                        new SelectListItem() {Text = "Punta Negra", Value="Punta Negra"},
+                                                        new SelectListItem() {Text = "Rímac", Value="Rímac"},
+                                                        new SelectListItem() {Text = "San Bartolo", Value="San Bartolo"},
+                                                        new SelectListItem() {Text = "San Borja", Value="San Borja"},
+                                                        new SelectListItem() {Text = "San Isidro", Value="San Isidro"},
+                                                        new SelectListItem() {Text = "San Juan de Lurigancho", Value="San Juan de Lurigancho"},
+                                                        new SelectListItem() {Text = "San Juan de Miraflores", Value="San Juan de Miraflores"},
+                                                        new SelectListItem() {Text = "San Luis", Value="San Luis"},
+                                                        new SelectListItem() {Text = "San Martín de Porres", Value="San Martín de Porres"},
+                                                        new SelectListItem() {Text = "San Miguel", Value="San Miguel"},
+                                                        new SelectListItem() {Text = "Santa Anita", Value="Santa Anita"},
+                                                        new SelectListItem() {Text = "Santa María del Mar", Value="Santa María del Mar"},
+                                                        new SelectListItem() {Text = "Santa Rosa", Value="Santa Rosa"},
+                                                        new SelectListItem() {Text = "Santiago de Surco", Value="Santiago de Surco"},
+                                                        new SelectListItem() {Text = "Surquillo", Value="Surquillo"},
+                                                        new SelectListItem() {Text = "Ventanilla", Value="Ventanilla"},
+                                                        new SelectListItem() {Text = "Villa El Salvador", Value="Villa El Salvador"},
+                                                        new SelectListItem() {Text = "Villa María del Triunfo", Value="Villa María del Triunfo"},
+                                                        new SelectListItem() {Text = "Otros - Provincia", Value="Otros - Provincia"}}, new { @class = "form-control", @id = "exampleFormControlSelect1" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            @Html.EditorFor(model => model.usuario, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Usuario", @maxlength = "10", @required = "required" } })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+
+                                            @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control", @type = "password", @placeholder = "Contraseña", @maxlength = "10", @required = "required" } })
+                                            <label style="font-size:10px;color:red;float:left;">* máximo 10 caracteres</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-12 text-center">
+                                    <button type="submit" class="btn btn-block btn-dark">Registrarse</button>
+                                </div>
+                                <div class="col-lg-12 text-center mt-5">
+                                    Ya tienes una cuenta ? <a href='@Url.Action("Login","Home")' class="text-danger">Iniciar Sesión</a>
+                                </div>
+
+
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- Login box.scss -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- All Required js -->
+    <!-- ============================================================== -->
+    <script src="~/Content/assets/libs/jquery/dist/jquery.min.js "></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="~/Content/assets/libs/popper.js/dist/umd/popper.min.js "></script>
+    <script src="~/Content/assets/libs/bootstrap/dist/js/bootstrap.min.js "></script>
+    <!-- ============================================================== -->
+    <!-- This page plugin js -->
+    <!-- ============================================================== -->
+    <script>
+        $(".preloader ").fadeOut();
+    </script>
+</body>
+
+</html>

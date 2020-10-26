@@ -1,0 +1,2831 @@
+﻿
+@model Dominio.Entity.Paciente
+
+@{
+    ViewBag.Title = "DashboardPaciente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<div class="row">
+    <div class="col-xl-12">
+
+
+
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">@Model.nombre @Model.apellido (@Model.edad años)</h3>
+            </div>
+
+            <div class="card-body">
+
+
+
+                <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+
+                    <li class="nav-item">
+                        <a href="#reporte" data-toggle="tab" aria-expanded="true"
+                           class="nav-link rounded-0 active">
+                            <i class="mdi mdi-home-variant d-lg-none d-block mr-1"></i>
+                            <span class="d-none d-lg-block">Reporte</span>
+                            <span class="fas fa-chart-line" style="color:white"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#metas" data-toggle="tab" aria-expanded="false"
+                           class="nav-link rounded-0">
+                            <i class="mdi mdi-account-circle d-lg-none d-block mr-1"></i>
+                            <span class="d-none d-lg-block">Límites</span>
+                            <span class="fas fa-flag" style="color:white"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#medicacion" data-toggle="tab" aria-expanded="false"
+                           class="nav-link rounded-0">
+                            <i class="mdi mdi-account-circle d-lg-none d-block mr-1"></i>
+                            <span class="d-none d-lg-block">Medicación</span>
+                            <span class="fas fa-capsules" style="color:white"></span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#alimentacion" data-toggle="tab" aria-expanded="false"
+                           class="nav-link rounded-0">
+                            <i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>
+                            <span class="d-none d-lg-block">Alimentación</span>
+                            <span class="fas fa-heartbeat" style="color:white"></span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#fisica" data-toggle="tab" aria-expanded="false"
+                           class="nav-link rounded-0">
+                            <i class="mdi mdi-account-circle d-lg-none d-block mr-1"></i>
+                            <span class="d-none d-lg-block">Actividad física</span>
+                            <span class="fas fa-child" style="color:white"></span>
+                        </a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a href="#control" data-toggle="tab" aria-expanded="false"
+                           class="nav-link rounded-0">
+                            <i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>
+                            <span class="d-none d-lg-block">Control médico</span>
+                            <span class="fas fa-user-md" style="color:white"></span>
+                        </a>
+                    </li>
+
+                </ul>
+
+                <div class="tab-content">
+
+                    <div class="tab-pane show active" id="reporte">
+
+                        <br />
+                        <!-- INICIO DE GRAFICOS -->
+
+                        <div class="row">
+
+                            <div class="col-lg-12">
+
+                                <center>
+                                    <h4 class="card-title mb-3">Presión arterial (mmHg)</h4>
+
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <button type="button" id="UDPRESION" class="btn btn-success">Última medición</button>
+                                        <button type="button" id="USPRESION" class="btn btn-success">Últimos 7 días</button>
+                                        <button type="button" id="HMPRESION" class="btn btn-success">Últimos 7 meses</button>
+                                    </div>
+                                </center>
+                            </div>
+
+
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Sístole</h4>
+                                        <div>
+                                            <canvas id="line-chart-sistole" height="150"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Diástole</h4>
+                                        <div>
+                                            <canvas id="line-chart-diastole" height="150"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-body">
+
+                                        <center>
+                                            <h4 class="card-title">Oxigenación (%)</h4>
+
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                <button type="button" id="UDOXIGENO" class="btn btn-success">Última medición</button>
+                                                <button type="button" id="USOXIGENO" class="btn btn-success">Últimos 7 días</button>
+                                                <button type="button" id="HMOXIGENO" class="btn btn-success">Últimos 7 meses</button>
+                                            </div>
+
+                                        </center>
+                                        <div>
+                                            <canvas id="line-chart-oxigenacion" height="150"></canvas>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <center>
+                                            <h4 class="card-title">Estado de sueño (horas)</h4>
+
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                <button type="button" id="UDSUENIO" class="btn btn-success">Última medición</button>
+                                                <button type="button" id="USSUENIO" class="btn btn-success">Últimos 5 días</button>
+                                                <button type="button" id="HMSUENIO" class="btn btn-success">Últimos 5 meses</button>
+                                            </div>
+                                        </center>
+                                        <div>
+                                            <canvas id="bar-chart-suenio" height="150"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <center>
+                                            <h4 class="card-title">Concentración</h4>
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                <button type="button" id="UDCONCENTRACION" class="btn btn-success">Último día</button>
+                                                <button type="button" id="USCONCENTRACION" class="btn btn-success">Últimos 7 días</button>
+                                                <button type="button" id="HMCONCENTRACION" class="btn btn-success">Últimos 7 meses</button>
+                                            </div>
+                                        </center>
+                                        <div>
+                                            <canvas id="line-chart-concentracion" height="150"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <center>
+                                            <h4 class="card-title">Cálculo</h4>
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                <button type="button" id="UDCALCULO" class="btn btn-success">Último día</button>
+                                                <button type="button" id="USCALCULO" class="btn btn-success">Últimos 7 días</button>
+                                                <button type="button" id="HMCALCULO" class="btn btn-success">Últimos 7 meses</button>
+                                            </div>
+                                        </center>
+                                        <div>
+                                            <canvas id="line-chart-calculo" height="150"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <center>
+                                            <h4 class="card-title">Memoria</h4>
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                <button type="button" id="UDMEMORIA" class="btn btn-success">Último día</button>
+                                                <button type="button" id="USMEMORIA" class="btn btn-success">Últimos 7 días</button>
+                                                <button type="button" id="HMMEMORIA" class="btn btn-success">Últimos 7 meses</button>
+                                            </div>
+                                        </center>
+                                        <div>
+                                            <canvas id="line-chart-memoria" height="150"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- FIN DE GRAFICOS -->
+                    </div>
+
+                    <div class="tab-pane" id="medicacion">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Recomendación de medicación</h5>
+                                    </div>
+                                    <div class="card-body">
+
+                                        @using (Html.BeginForm())
+                                        {
+                                            <div class="row">
+                                                @Html.HiddenFor(model => model.DNI)
+                                                <div class="col-md-3">
+
+                                                    <div class="form-group">
+                                                        <label>Medicamento</label>
+                                                        @Html.EditorFor(model => model.medicamento, new { htmlAttributes = new { @class = "form-control", @type = "text", @required = "required" } })
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Frecuencia (veces por día)</label>
+                                                        @Html.EditorFor(model => model.frecuencia, new { htmlAttributes = new { @class = "form-control", @type = "number", @required = "required", @min = 0, @max = 50 } })
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Duración (días)</label>
+                                                        @Html.EditorFor(model => model.duracionMedicacion, new { htmlAttributes = new { @class = "form-control", @type = "number", @required = "required", @min = 0, @max = 10 } })
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Nota adicional</label>
+                                                        @Html.TextAreaFor(model => model.notaAdicional, new { htmlAttributes = new { @class = "form-control", @type = "text", @required = "required" } })
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <button type="button" class="btn waves-effect waves-light btn-success" id="btnMedicacion">Guardar</button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Lista de Recomendaciones</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="table-medicacion" class="table table-striped table-bordered display no-wrap" style="width:100%">
+
+                                                <thead class="bg-success text-white">
+
+                                                    <tr>
+                                                        <th>Fecha registro</th>
+                                                        <th>Medicamento</th>
+                                                        <th>Frecuencia</th>
+                                                        <th>Duración</th>
+                                                        <th>Nota adicional</th>
+                                                    </tr>
+
+                                                </thead>
+
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="tab-pane" id="alimentacion">
+
+                        <div class="row">
+
+                            <div class="col-12">
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Recomendación de alimentación</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            @using (Html.BeginForm())
+                                            {
+                                                @Html.HiddenFor(model => model.DNI)
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label>Dieta</label> <br />
+                                                        @Html.TextAreaFor(model => model.dieta, 2, 80, new { htmlAttributes = new { @class = "form-control", @required = "required", @style = "width: 100%; max-width: 100%;" } })
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <button type="button" class="btn waves-effect waves-light btn-success" id="btnAlimentacion">Guardar</button>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Lista de Recomendaciones</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="table-alimentacion" class="table table-striped table-bordered display no-wrap" style="width:100%">
+                                                <thead>
+
+                                                    <tr class="bg-success text-white">
+
+
+                                                        <th>Fecha registro</th>
+                                                        <th>Dieta</th>
+
+
+                                                    </tr>
+                                                </thead>
+
+
+
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="fisica">
+
+                        <div class="row">
+
+                            <div class="col-12">
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Recomendación de actividad física</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        @using (Html.BeginForm())
+                                        {
+                                            <div class="row">
+                                                @Html.HiddenFor(model => model.DNI)
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Actividad física</label><br />
+                                                        @Html.TextAreaFor(model => model.actividadFisica, 2, 30, new { htmlAttributes = new { @class = "form-control", @required = "required", @style = "width: 100%; max-width: 100%;" } })
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Duración(días)</label>
+                                                        @Html.EditorFor(model => model.duracionActividadFisica, new { htmlAttributes = new { @class = "form-control", @type = "number", @required = "required", @min = 0, @max = 50 } })
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <button type="button" class="btn waves-effect waves-light btn-success" id="btnActividadFisica">Guardar</button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Lista de Recomendaciones</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="table-fisica" class="table table-striped table-bordered display no-wrap" style="width:100%">
+                                                <thead class="bg-success text-white">
+
+                                                    <tr>
+
+                                                        <th>Fecha registro</th>
+                                                        <th>Actividad física</th>
+                                                        <th>Duración</th>
+
+
+                                                    </tr>
+                                                </thead>
+
+
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="tab-pane" id="metas">
+
+                        <div class="row">
+
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Establecer límites</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        @using (Html.BeginForm())
+                                        {
+                                            <div class="row">
+
+
+                                                @Html.HiddenFor(model => model.DNI)
+                                                <!-- MEMORIA-->
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Memoria</label>
+
+                                                        @Html.EditorFor(model => model.limiteMemoria, new { htmlAttributes = new { @class = "form-control", @type = "number", @required = "required", @min = 0, @max = 100 } })
+
+
+                                                    </div>
+                                                </div>
+
+                                                <!-- CONCENTRACION-->
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Concentración</label>
+
+                                                        @Html.EditorFor(model => model.limiteConcentracion, new { htmlAttributes = new { @class = "form-control", @type = "number", @required = "required", @min = 0, @max = 100 } })
+
+                                                    </div>
+                                                </div>
+
+                                                <!-- CALCULO-->
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Cálculo</label>
+                                                        @Html.EditorFor(model => model.limiteCalculo, new { htmlAttributes = new { @class = "form-control", @type = "number", @required = "required", @min = 0, @max = 100 } })
+                                                    </div>
+                                                </div>
+
+
+                                                <!-- Presión arterial-->
+
+
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Presión arterial (Sístole mínimo)</label>
+                                                        @Html.EditorFor(model => model.limiteMinSistole, new { htmlAttributes = new { @class = "form-control", @type = "number", @required = "required", @min = 0, @max = 200 } })
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Presión arterial (Diástole mínimo)</label>
+
+                                                        @Html.EditorFor(model => model.limiteMinDiastole, new { htmlAttributes = new { @class = "form-control", @type = "number", @required = "required", @min = 0, @max = 200 } })
+
+                                                    </div>
+                                                </div>
+
+
+
+
+
+                                                <!-- oxigenación-->
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Oxigenación</label>
+                                                        @Html.EditorFor(model => model.limiteOxigeno, new { htmlAttributes = new { @class = "form-control", @type = "number", @required = "required", @min = 0, @max = 100 } })
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Presión arterial (Sístole máximo)</label>
+                                                        @Html.EditorFor(model => model.limiteMaxSistole, new { htmlAttributes = new { @class = "form-control", @type = "number", @required = "required", @min = 0, @max = 200 } })
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Presión arterial (Diástole máximo)</label>
+
+                                                        @Html.EditorFor(model => model.limiteMaxDiastole, new { htmlAttributes = new { @class = "form-control", @type = "number", @required = "required", @min = 0, @max = 200 } })
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <button type="button" id="btnLimites" class="btn waves-effect waves-light btn-success">Guardar</button>
+                                                    </div>
+                                                </div>
+
+
+
+
+                                            </div>
+
+
+                                        }
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="control">
+
+                        <div class="row">
+
+                            <div class="col-12">
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Registro de control médico</h5>
+                                    </div>
+                                    <div class="card-body">
+
+                                        @using (Html.BeginForm())
+                                        {
+                                            <div class="row">
+                                                @Html.HiddenFor(model => model.DNI)
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <label>Observación médica</label><br />
+                                                        @Html.TextAreaFor(model => model.Observacion, 2, 80, new { htmlAttributes = new { @class = "form-control", @required = "required", @style = "width: 100%; max-width: 100%;" } })
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <button type="button" id="btnGuardarControl" class="btn waves-effect waves-light btn-success">Guardar</button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Lista de observaciones</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="table-observaciones" class="table table-striped table-bordered no-wrap" style="width:100%">
+                                                <thead class="bg-success text-white">
+
+                                                    <tr>
+                                                        <th>Fecha registro</th>
+                                                        <th>Observación médica</th>
+
+
+                                                    </tr>
+                                                </thead>
+
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+
+
+</div>
+
+
+<script src="~/Content/assets/libs/chart.js/dist/Chart.min.js"></script>
+<script src="~/Content/assets/libs/chartist-plugin-tooltips/dist/chartjs-plugin-datalabels.js"></script>
+<script type="text/javascript" src="~/Content/ajax/jquery.min.js"></script>
+
+
+<script type="text/javascript">
+
+
+       //funcion guardar limites
+       $(function () {
+                $("#btnLimites").click(function () {
+
+                    var Limites = [{
+                        DNI: $("#DNI").val(),
+                        limiteConcentracion: $("#limiteConcentracion").val(),
+                        limiteMemoria: $("#limiteMemoria").val(),
+                        limiteCalculo: $("#limiteCalculo").val(),
+                        limiteMinSistole: $("#limiteMinSistole").val(),
+                        limiteMinDiastole: $("#limiteMinDiastole").val(),
+                        limiteMaxSistole: $("#limiteMaxSistole").val(),
+                        limiteMaxDiastole: $("#limiteMaxDiastole").val(),
+                        limiteOxigeno: $("#limiteOxigeno").val()
+                    }];
+
+                    Limites = JSON.stringify({ 'Limites': Limites });
+
+                    if ($("#limiteConcentracion").val() <= 0 || $("#limiteMemoria").val() <= 0 || $("#limiteCalculo").val() <= 0
+                        || $("#limiteMinSistole").val() <= 0 || $("#limiteMinDiastole").val() <= 0 || $("#limiteOxigeno").val() <= 0
+                        || $("#limiteMaxSistole").val() <= 0 || $("#limiteMaxDiastole").val() <= 0) {
+
+                        swal("Advertencia!", "Los valores deben ser mayor a 0", "warning");
+
+                    } else if ($("#limiteConcentracion").val() === '' || $("#limiteMemoria").val() === '' || $("#limiteCalculo").val() === ''
+                        || $("#limiteMinSistole").val() === '' || $("#limiteMinDiastole").val() === '' || $("#limiteOxigeno").val() === ''
+                        || $("#limiteMaxSistole").val() === '' || $("#limiteMaxDiastole").val() === '') {
+
+                        swal("Advertencia!", "Debes ingresar todos los campos", "warning");
+                    }
+
+                    else {
+                          $.ajax({
+                                contentType: 'application/json; charset=utf-8',
+                                dataType: "json",
+                                type: "POST",
+                                url: "@Url.Action("GuardarLimites", "Medico")",
+                                data: Limites,
+
+                                success: function (response) {
+
+                                    if (response.Success === 'True' ) {
+
+                                        swal("Buen trabajo!", response.Message, "success");
+
+                                    } else {
+                                        swal("Error!", response.Message, "error");
+                                    }
+                                },
+                                failure: function () {
+                                    swal("Error!", response.Message, "error");
+                                },
+                                error: function () {
+
+                                    swal("Error!", response.Message, "error");
+
+                                }
+                            });
+                    }
+
+                });
+            });
+
+       //funcion guardar recomendacion de actividad fisica
+    $(function () {
+
+                $("#btnActividadFisica").click(function () {
+
+                    var ActividadFisica = [{
+                        DNI: $("#DNI").val(),
+                        actividadFisica: $("#actividadFisica").val(),
+                        duracionActividadFisica: $("#duracionActividadFisica").val()
+                    }];
+
+                    ActividadFisica = JSON.stringify({ 'ActividadFisica': ActividadFisica });
+
+
+                    if ($("#actividadFisica").val() === '') {
+
+                        swal("Advertencia!", "Debes ingresar el campo Actividad Física", "warning");
+
+                    } else if ($("#duracionActividadFisica").val() == '' || $("#duracionActividadFisica").val() <= 0) {
+
+                        swal("Advertencia!", "El campo duración debe ser diferente de vacío o mayor que cero", "warning");
+
+                    } else {
+
+                        $.ajax({
+                            contentType: 'application/json; charset=utf-8',
+                            dataType: "json",
+                            type: "POST",
+                            url: "@Url.Action("GuardarActividadFisica", "Medico")",
+                            data: ActividadFisica,
+
+                            success: function (response) {
+
+                                if (response.Success === 'True') {
+
+                                    swal("Buen trabajo!", response.Message, "success");
+                                    listaFisicas();
+
+                                    document.getElementById('actividadFisica').value = "";
+                                    document.getElementById('duracionActividadFisica').value = "";
+
+                                } else {
+                                    swal("Error!", response.Message, "error");
+                                }
+                            },
+                            failure: function () {
+                                swal("Error!", response.Message, "error");
+                            },
+                            error: function () {
+
+                                swal("Error!", response.Message, "error");
+
+                            }
+                        });
+
+                    }
+
+
+
+                });
+             });
+
+      //funcion guardar recomendacion de medicacion
+      $(function () {
+
+                $("#btnMedicacion").click(function () {
+
+                    var Medicacion = [{
+
+                        DNI: $("#DNI").val(),
+                        medicamento: $("#medicamento").val(),
+                        duracionMedicacion: $("#duracionMedicacion").val(),
+                        notaAdicional: $("#notaAdicional").val(),
+                        frecuencia: $("#frecuencia").val()
+
+                    }];
+
+                    Medicacion = JSON.stringify({ 'Medicacion': Medicacion });
+
+                    if ($("#medicamento").val() === '') {
+
+                        swal("Advertencia!", "Debes ingresar el nombre del medicamento", "warning");
+
+                    } else if ($("#duracionMedicacion").val() === '' || $("#duracionMedicacion").val() <= 0
+                        || $("#frecuencia").val() === '' || $("#frecuencia").val() <=0 ) {
+
+                        swal("Advertencia!", "Los datos de frecuencia y duración deben ser diferentes de vacío y mayor que cero", "warning");
+
+                    } else {
+
+                        $.ajax({
+                            contentType: 'application/json; charset=utf-8',
+                            dataType: "json",
+                            type: "POST",
+                            url: "@Url.Action("GuardarMedicacion", "Medico")",
+                            data: Medicacion,
+
+                            success: function (response) {
+
+                                if (response.Success === 'True') {
+
+                                    swal("Buen trabajo!", response.Message, "success");
+                                    listaMedicacion();
+                                    document.getElementById('medicamento').value = "";
+                                    document.getElementById('duracionMedicacion').value = "";
+                                    document.getElementById('frecuencia').value = "";
+                                    document.getElementById('notaAdicional').value = "";
+
+                                } else {
+                                    swal("Error!", response.Message, "error");
+                                }
+                            },
+                            failure: function () {
+                                swal("Error!", response.Message, "error");
+                            },
+                            error: function () {
+
+                                swal("Error!", response.Message, "error");
+
+                            }
+                        });
+
+                    }
+
+
+
+                });
+      });
+
+
+    //funcion guardar recomendacion de alimentacion
+     $(function () {
+
+                $("#btnAlimentacion").click(function () {
+
+                    var Alimentacion = [{
+                        DNI: $("#DNI").val(),
+
+                        dieta: $("#dieta").val()
+                    }];
+
+                    Alimentacion = JSON.stringify({ 'Alimentacion': Alimentacion });
+
+                    if ($("#dieta").val() === '') {
+
+                        swal("Advertencia!", "Debes completar todos los datos", "warning");
+
+                    } else {
+
+
+
+                        $.ajax({
+                            contentType: 'application/json; charset=utf-8',
+                            dataType: "json",
+                            type: "POST",
+                            url: "@Url.Action("GuardarRecAlimentacion", "Medico")",
+                            data: Alimentacion,
+
+                            success: function (response) {
+
+                                if (response.Success === 'True') {
+
+                                    swal("Buen trabajo!", response.Message, "success");
+                                    listaAlimentacion();
+                                    document.getElementById('dieta').value = "";
+
+                                } else {
+                                    swal("Error!", response.Message, "error");
+                                }
+                            },
+                            failure: function () {
+                                swal("Error!", response.Message, "error");
+                            },
+                            error: function () {
+
+                                swal("Error!", response.Message, "error");
+
+                            }
+                        });
+                    }
+
+
+
+                });
+     });
+
+
+
+    // funcion guardar control medico
+     $(function () {
+
+        $("#btnGuardarControl").click(function () {
+
+            var control = [{
+                DNI: $("#DNI").val(),
+                Observacion: $("#Observacion").val()
+            }];
+
+            control = JSON.stringify({ 'control': control });
+
+            if ($("#Observacion").val() === '') {
+
+                swal("Advertencia!", "Debes completar todos los campos", "warning");
+
+            } else {
+
+                $.ajax({
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    url: "@Url.Action("GuardarDatosControlMedico", "Medico")",
+                    data: control,
+                    success: function (response) {
+
+                        if (response.Success === 'True') {
+
+                            swal("Buen trabajo!", response.Message, "success");
+
+                            listaControles();
+                            document.getElementById('Observacion').value = "";
+
+                        } else {
+                            swal("Error!", response.Message, "error");
+                        }
+                    },
+                    failure: function () {
+                        swal("Error!", response.Message, "error");
+                    },
+                    error: function () {
+
+                        swal("Error!", response.Message, "error");
+
+                    }
+                });
+            }
+
+
+        });
+     });
+
+
+
+</script>
+
+
+<script type="text/javascript" src="~/Content/moment.min.js"></script>
+
+
+<script>
+
+    function listaMedicacion() {
+
+        $('#table-medicacion').DataTable({
+        destroy: true,
+        responsive: true,
+        'ajax': {
+        "type": 'GET',
+        "url":"@Url.Action("ObtenerRecomendacionesMedicacion", "Medico", new { DNI = Model.DNI})",
+        "datatype": "JSON",
+        },
+        "columns": [
+
+            { "data": "fecRegRecomendacionMedicacion" },
+            { "data": "medicamento" },
+            { "data": "frecuencia" },
+            { "data": "duracionMedicacion" },
+            { "data": "notaAdicional" }
+            ],
+        "columnDefs": [{
+            targets: 0, render: function (data) {
+                return moment(data).format('YYYY-MM-DD HH:mm:ss a');
+            }
+            }]
+        });
+    }
+
+    function listaAlimentacion() {
+
+        $('#table-alimentacion').DataTable({
+        destroy: true,
+        responsive: true,
+        'ajax': {
+        "type": 'GET',
+        "url":"@Url.Action("ObtenerRecomendacionesAlimentacion", "Medico", new { DNI = Model.DNI})",
+        "datatype": "JSON",
+        },
+        "columns": [
+
+            { "data": "fecRegRecomendacionAlimentacion" },
+            { "data": "dieta" }
+            ],
+        "columnDefs": [{
+            targets: 0, render: function (data) {
+                return moment(data).format('YYYY-MM-DD HH:mm:ss a');
+            }
+            }]
+        });
+    }
+
+    function listaFisicas() {
+
+        $('#table-fisica').DataTable({
+        destroy: true,
+        responsive: true,
+        'ajax': {
+        "type": 'GET',
+        "url":"@Url.Action("ObtenerRecomendacionesFisicas", "Medico", new { DNI = Model.DNI})",
+        "datatype": "JSON",
+        },
+        "columns": [
+
+            { "data": "fecRegRecomendacionAfisica" },
+            { "data": "actividadFisica" },
+            { "data": "duracionActividadFisica" }
+            ],
+        "columnDefs": [{
+            targets: 0, render: function (data) {
+                return moment(data).format('YYYY-MM-DD HH:mm:ss a');
+            }
+            }]
+        });
+    }
+
+    function listaControles() {
+
+        $('#table-observaciones').DataTable({
+        destroy: true,
+        responsive: true,
+        'ajax': {
+        "type": 'GET',
+        "url":"@Url.Action("ObtenerControlesMedicos", "Medico", new { DNI = Model.DNI})",
+        "datatype": "JSON",
+        },
+        "columns": [
+
+            { "data": "fechaControl" },
+            { "data": "Observacion" }
+            ],
+        "columnDefs": [{
+            targets: 0, render: function (data) {
+                return moment(data).format('YYYY-MM-DD HH:mm:ss a');
+            }
+            }]
+        });
+    }
+
+
+    function PresionArterialUltimaMedicion() {
+
+        $.ajax({
+            contentType: "application/json",
+            dataType: "json",
+            type: "GET",
+            url: '@Url.Action("UltimaMedicionPresionArterial", "Medico",new {DNI =Model.DNI })',
+            success: function (response) {
+                if (window.graficaSistole) {
+                    window.graficaSistole.clear();
+                    window.graficaSistole.destroy();
+                }
+                window.graficaSistole =  new Chart(document.getElementById("line-chart-sistole"), {
+                    type: 'line',
+                    data: {
+                        labels: response.periodos,
+                        datasets: [
+                            {
+                                data: response.valoresSistole,
+                                label: "Sistole",
+                                borderColor: "#FF5733",
+                                fill: false,
+                                datalabels: {
+                                    align: 'top',
+                                    color: "#FDFEFE",
+                                    backgroundColor: "#EC7063",
+                                    borderRadius: 4,
+                                    font: {
+                                        weight: 'bold'
+
+                                    }
+                                }
+                            }
+                            ,
+                            {
+                                data: response.valoresMetaMinSistole,
+                                label: "Mín. Sístole",
+                                borderColor: "#17202A",
+                                fill: false,
+                                borderDash: [5, 5],
+                                datalabels: {
+                                    display: false
+                                }
+
+                            }
+                            ,
+                            {
+                                data: response.valoresMetaMaxSistole,
+                                label: "Máx. Sístole",
+                                borderColor: "#17202A",
+                                fill: false,
+                                borderDash: [5, 5],
+                                datalabels: {
+                                    display: false
+                                }
+
+                            }
+
+                        ]
+                    },
+                    options: {
+                        title: {
+                            display: true
+
+                        }, scales: {
+                            yAxes: [{ ticks: { min: 40, max: 180, stepSize: 20  } }]
+                        },
+                        responsive: true
+
+                    }
+                });
+
+                if (window.graficaDiastole) {
+                    window.graficaDiastole.clear();
+                    window.graficaDiastole.destroy();
+                }
+                window.graficaDiastole =  new Chart(document.getElementById("line-chart-diastole"), {
+                    type: 'line',
+                    data: {
+                        labels: response.periodos,
+                        datasets: [
+                            {
+                                data: response.valoresDiastole,
+                                label: "Diastole",
+                                borderColor: "#3498DB",
+                                fill: false,
+                                datalabels: {
+                                    align: 'top',
+                                    color: "#FDFEFE",
+                                    backgroundColor: "#5DADE2",
+                                    borderRadius: 4,
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                }
+                            }
+                            ,
+                            {
+                                data: response.valoresMetaMinDiastole,
+                                label: "Mín. Diástole",
+                                borderColor: "#17202A",
+                                fill: false,
+                                borderDash: [5, 5],
+                                datalabels: {
+                                    display: false
+                                }
+                            }
+                            ,
+                            {
+                                data: response.valoresMetaMaxDiastole,
+                                label: "Max. Diástole",
+                                borderColor: "#17202A",
+                                fill: false,
+                                borderDash: [5, 5],
+                                datalabels: {
+                                    display: false
+                                }
+                            }
+
+                        ]
+                    },
+                    options: {
+                        title: {
+                            display: true
+
+                        },
+                        scales: {
+                            yAxes: [{ ticks: { min: 40, max: 120, stepSize: 20  } }]
+                        },
+                        responsive: true
+
+                    }
+                });
+
+
+            },
+            failure: function () {
+                swal("Error!", "Error al construir gráfico", "error");
+            },
+            error: function () {
+
+                swal("Error!", "Error al construir gráfico", "error");
+
+            }
+        });
+
+    }
+
+
+
+    function OxigenacionUltimaMedicion() {
+
+        $.ajax({
+            contentType: "application/json",
+            dataType: "json",
+            type: "GET",
+            url: '@Url.Action("UltimaMedicionOxigenacion", "Medico",new {DNI =Model.DNI })',
+            success: function (response) {
+
+                if (window.graficaOxigenacion) {
+                    window.graficaOxigenacion.clear();
+                    window.graficaOxigenacion.destroy();
+                }
+                window.graficaOxigenacion = new Chart(document.getElementById("line-chart-oxigenacion"), {
+                    type: 'line',
+                    data: {
+                        labels: response.periodos,
+                        datasets: [
+                            {
+                                data: response.valoresOxigenacion,
+                                label: "Oxigenación",
+                                borderColor: "#F5B041",
+                                fill: false,
+                                datalabels: {
+                                    align: 'top',
+                                    backgroundColor: "#F5B041",
+                                    color: "#FDFEFE",
+                                    borderRadius: 4,
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                }
+
+                            }, {
+                                data: response.valoresLimiteOxigenacion,
+                                label: "Límite",
+                                borderColor: "#17202A",
+                                fill: false,
+                                borderDash: [5, 5],
+                                datalabels: {
+                                    display: false
+                                }
+                            }
+                        ]
+                    },
+                    options: {
+
+                        title: {
+                            display: true
+
+                        },
+
+                        scales: {
+                            yAxes: [{ ticks: { min: 40, max: 120, stepSize: 20 } }]
+                        },
+                        responsive: true
+
+                    }
+                });
+
+            },
+            failure: function () {
+                swal("Error!", "Error al construir gráfico", "error");
+            },
+            error: function () {
+
+                swal("Error!", "Error al construir gráfico", "error");
+
+            }
+        });
+
+    }
+
+    function EstadoSuenioUltimaMedición() {
+
+        $.ajax({
+            contentType: "application/json",
+            dataType: "json",
+            type: "GET",
+            url: '@Url.Action("UltimaMedicionEstadoSuenio", "Medico",new {DNI =Model.DNI })',
+            success: function (response) {
+
+
+
+                if (window.graficaSuenio) {
+                    window.graficaSuenio.clear();
+                    window.graficaSuenio.destroy();
+                }
+                window.graficaSuenio = new Chart(document.getElementById("bar-chart-suenio"), {
+                    type: 'bar',
+                    data: {
+                        labels: response.periodos,
+                        datasets: [
+                            {
+                                label: "Despierto",
+                                backgroundColor: "#01579B",
+                                data: response.valoresDespierto
+                            },
+                            {
+                                label: "Sueño ligero",
+                                backgroundColor: "#8C9EFF",
+                                data: response.valoresSuenioLigero
+                            },
+                            {
+                                label: "Sueño profundo",
+                                backgroundColor: "#4FC3F7",
+                                data: response.valoresSuenioProfundo
+                            }
+                        ]
+                    },
+                    options: {
+                        legend: { display: true },
+                        title: {
+                            display: true
+                        },
+                        scales: {
+                            yAxes: [{ ticks: { min: 0, max: 18 } }]
+                        },
+                        plugins: {
+                            datalabels: {
+                                anchor: 'end',
+                                align: 'top',
+                                font: {
+                                    weight: 'bold'
+                                }
+                            }
+
+                        }
+                    }
+                });
+
+            },
+            failure: function () {
+                swal("Error!", "Error al construir gráfico", "error");
+            },
+            error: function () {
+
+                swal("Error!", "Error al construir gráfico", "error");
+
+            }
+        });
+    }
+
+
+    function MemoriaUltimaMedición() {
+
+        $.ajax({
+            contentType: "application/json",
+            dataType: "json",
+            type: "GET",
+            url: '@Url.Action("UltimaMedicionGameMemoria", "Medico",new {DNI =Model.DNI })',
+            success: function (response) {
+
+
+
+                if (window.graficaMemoria) {
+                    window.graficaMemoria.clear();
+                    window.graficaMemoria.destroy();
+                }
+                window.graficaMemoria = new Chart(document.getElementById("line-chart-memoria"), {
+                    type: 'line',
+                    data: {
+                        labels: response.periodos,
+                        datasets: [
+                            {
+                                data: response.valoresPuntaje,
+                                label: "Puntaje",
+                                borderColor: "#26C6DA",
+                                fill: false,
+                                datalabels: {
+                                    align: 'top',
+                                    backgroundColor: "#26C6DA",
+                                    color: "#FDFEFE",
+                                    borderRadius: 4,
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                }
+
+                            }, {
+                                data: response.valoresMeta,
+                                label: "Meta",
+                                borderColor: "#01579B",
+                                fill: false,
+                                borderDash: [7, 7],
+                                datalabels: {
+                                    display: false
+                                }
+                            }
+                        ]
+                    },
+                    options: {
+                        legend: { display: true },
+                        title: {
+                            display: true
+                        },
+                        scales: {
+                            yAxes: [{ ticks: { min: 0, max: 14 } }]
+                        },
+                        plugins: {
+                            datalabels: {
+                                anchor: 'end',
+                                align: 'top',
+                                font: {
+                                    weight: 'bold'
+                                }
+                            }
+
+                        }
+                    }
+                });
+
+            },
+            failure: function () {
+                swal("Error!", "Error al construir gráfico", "error");
+            },
+            error: function () {
+
+                swal("Error!", "Error al construir gráfico", "error");
+
+            }
+        });
+    }
+
+
+       function ConcentracionUltimaMedición() {
+
+        $.ajax({
+            contentType: "application/json",
+            dataType: "json",
+            type: "GET",
+            url: '@Url.Action("UltimaMedicionGameConcentracion", "Medico",new {DNI =Model.DNI })',
+            success: function (response) {
+
+
+
+                if (window.graficaConcentracion) {
+                    window.graficaConcentracion.clear();
+                    window.graficaConcentracion.destroy();
+                }
+                window.graficaConcentracion = new Chart(document.getElementById("line-chart-concentracion"), {
+                    type: 'line',
+                    data: {
+                        labels: response.periodos,
+                        datasets: [
+                            {
+                                data: response.valoresPuntaje,
+                                label: "Puntaje",
+                                borderColor: "#26C6DA",
+                                fill: false,
+                                datalabels: {
+                                    align: 'top',
+                                    backgroundColor: "#26C6DA",
+                                    color: "#FDFEFE",
+                                    borderRadius: 4,
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                }
+
+                            }, {
+                                data: response.valoresMeta,
+                                label: "Meta",
+                                borderColor: "#01579B",
+                                fill: false,
+                                borderDash: [7, 7],
+                                datalabels: {
+                                    display: false
+                                }
+                            }
+                        ]
+                    },
+                    options: {
+                        legend: { display: true },
+                        title: {
+                            display: true
+                        },
+                        scales: {
+                            yAxes: [{ ticks: { min: 0, max: 14 } }]
+                        },
+                        plugins: {
+                            datalabels: {
+                                anchor: 'end',
+                                align: 'top',
+                                font: {
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    }
+                });
+
+            },
+            failure: function () {
+                swal("Error!", "Error al construir gráfico", "error");
+            },
+            error: function () {
+
+                swal("Error!", "Error al construir gráfico", "error");
+            }
+        });
+    }
+
+       function CalculoUltimaMedición() {
+
+        $.ajax({
+            contentType: "application/json",
+            dataType: "json",
+            type: "GET",
+            url: '@Url.Action("UltimaMedicionGameCalculo", "Medico",new {DNI =Model.DNI })',
+            success: function (response) {
+
+                if (window.graficaCalculo) {
+                    window.graficaCalculo.clear();
+                    window.graficaCalculo.destroy();
+                }
+                window.graficaCalculo = new Chart(document.getElementById("line-chart-calculo"), {
+                    type: 'line',
+                    data: {
+                        labels: response.periodos,
+                        datasets: [
+                            {
+                                data: response.valoresPuntaje,
+                                label: "Puntaje",
+                                borderColor: "#26C6DA",
+                                fill: false,
+                                datalabels: {
+                                    align: 'top',
+                                    backgroundColor: "#26C6DA",
+                                    color: "#FDFEFE",
+                                    borderRadius: 4,
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                }
+
+                            }, {
+                                data: response.valoresMeta,
+                                label: "Meta",
+                                borderColor: "#01579B",
+                                fill: false,
+                                borderDash: [7, 7],
+                                datalabels: {
+                                    display: false
+                                }
+                            }
+                        ]
+                    },
+                    options: {
+                        legend: { display: true },
+                        title: {
+                            display: true
+                        },
+                        scales: {
+                            yAxes: [{ ticks: { min: 0, max: 14 } }]
+                        },
+                        plugins: {
+                            datalabels: {
+                                anchor: 'end',
+                                align: 'top',
+                                font: {
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    }
+                });
+
+            },
+            failure: function () {
+                swal("Error!", "Error al construir gráfico", "error");
+            },
+            error: function () {
+
+                swal("Error!", "Error al construir gráfico", "error");
+
+            }
+        });
+    }
+
+
+
+
+
+</script>
+
+
+
+
+
+<script>
+
+    $(function () {
+        listaMedicacion();
+        listaAlimentacion();
+        listaFisicas();
+        listaControles();
+        PresionArterialUltimaMedicion();
+        OxigenacionUltimaMedicion();
+        EstadoSuenioUltimaMedición();
+        MemoriaUltimaMedición();
+        ConcentracionUltimaMedición();
+        CalculoUltimaMedición();
+    });
+
+</script>
+
+
+<script>
+
+    $(function () {
+
+        $("#UDCONCENTRACION").click(function () {
+
+            ConcentracionUltimaMedición();
+        });
+
+    });
+
+
+    $(function () {
+
+        $("#USCONCENTRACION").click(function () {
+
+
+             $.ajax({
+            contentType: "application/json",
+            dataType: "json",
+            type: "GET",
+            url: '@Url.Action("DiarioGameConcentracion", "Medico",new {DNI =Model.DNI })',
+            success: function (response) {
+
+
+
+                if (window.graficaConcentracion) {
+                    window.graficaConcentracion.clear();
+                    window.graficaConcentracion.destroy();
+                }
+                window.graficaConcentracion = new Chart(document.getElementById("line-chart-concentracion"), {
+                    type: 'line',
+                    data: {
+                        labels: response.periodos,
+                        datasets: [
+                            {
+                                data: response.valoresPuntaje,
+                                label: "Puntaje",
+                                borderColor: "#26C6DA",
+                                fill: false,
+                                datalabels: {
+                                    align: 'top',
+                                    backgroundColor: "#26C6DA",
+                                    color: "#FDFEFE",
+                                    borderRadius: 4,
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                }
+
+                            }, {
+                                data: response.valoresMeta,
+                                label: "Meta",
+                                borderColor: "#01579B",
+                                fill: false,
+                                borderDash: [7, 7],
+                                datalabels: {
+                                    display: false
+                                }
+                            }
+                        ]
+                    },
+                    options: {
+                        legend: { display: true },
+                        title: {
+                            display: true
+                        },
+                        scales: {
+                            yAxes: [{ ticks: { min: 0, max: 14 } }]
+                        },
+                        plugins: {
+                            datalabels: {
+                                anchor: 'end',
+                                align: 'top',
+                                font: {
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    }
+                });
+
+            },
+            failure: function () {
+                swal("Error!", "Error al construir gráfico", "error");
+            },
+            error: function () {
+
+                swal("Error!", "Error al construir gráfico", "error");
+            }
+             });
+
+
+        });
+
+    });
+
+
+    $(function () {
+
+        $("#HMCONCENTRACION").click(function () {
+
+
+             $.ajax({
+            contentType: "application/json",
+            dataType: "json",
+            type: "GET",
+            url: '@Url.Action("MensualGameConcentracion", "Medico",new {DNI =Model.DNI })',
+            success: function (response) {
+
+
+
+                if (window.graficaConcentracion) {
+                    window.graficaConcentracion.clear();
+                    window.graficaConcentracion.destroy();
+                }
+                window.graficaConcentracion = new Chart(document.getElementById("line-chart-concentracion"), {
+                    type: 'line',
+                    data: {
+                        labels: response.periodos,
+                        datasets: [
+                            {
+                                data: response.valoresPuntaje,
+                                label: "Puntaje",
+                                borderColor: "#26C6DA",
+                                fill: false,
+                                datalabels: {
+                                    align: 'top',
+                                    backgroundColor: "#26C6DA",
+                                    color: "#FDFEFE",
+                                    borderRadius: 4,
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                }
+
+                            }, {
+                                data: response.valoresMeta,
+                                label: "Meta",
+                                borderColor: "#01579B",
+                                fill: false,
+                                borderDash: [7, 7],
+                                datalabels: {
+                                    display: false
+                                }
+                            }
+                        ]
+                    },
+                    options: {
+                        legend: { display: true },
+                        title: {
+                            display: true
+                        },
+                        scales: {
+                            yAxes: [{ ticks: { min: 0, max: 14 } }]
+                        },
+                        plugins: {
+                            datalabels: {
+                                anchor: 'end',
+                                align: 'top',
+                                font: {
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    }
+                });
+
+            },
+            failure: function () {
+                swal("Error!", "Error al construir gráfico", "error");
+            },
+            error: function () {
+
+                swal("Error!", "Error al construir gráfico", "error");
+                 }
+             });
+
+        });
+
+    });
+
+
+
+    $(function () {
+
+        $("#UDCALCULO").click(function () {
+
+            CalculoUltimaMedición();
+        });
+
+    });
+
+
+    $(function () {
+
+        $("#USCALCULO").click(function () {
+
+        $.ajax({
+            contentType: "application/json",
+            dataType: "json",
+            type: "GET",
+            url: '@Url.Action("DiarioGameCalculo", "Medico",new {DNI =Model.DNI })',
+            success: function (response) {
+
+                if (window.graficaCalculo) {
+                    window.graficaCalculo.clear();
+                    window.graficaCalculo.destroy();
+                }
+                window.graficaCalculo = new Chart(document.getElementById("line-chart-calculo"), {
+                    type: 'line',
+                    data: {
+                        labels: response.periodos,
+                        datasets: [
+                            {
+                                data: response.valoresPuntaje,
+                                label: "Puntaje",
+                                borderColor: "#26C6DA",
+                                fill: false,
+                                datalabels: {
+                                    align: 'top',
+                                    backgroundColor: "#26C6DA",
+                                    color: "#FDFEFE",
+                                    borderRadius: 4,
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                }
+
+                            }, {
+                                data: response.valoresMeta,
+                                label: "Meta",
+                                borderColor: "#01579B",
+                                fill: false,
+                                borderDash: [7, 7],
+                                datalabels: {
+                                    display: false
+                                }
+                            }
+                        ]
+                    },
+                    options: {
+                        legend: { display: true },
+                        title: {
+                            display: true
+                        },
+                        scales: {
+                            yAxes: [{ ticks: { min: 0, max: 14 } }]
+                        },
+                        plugins: {
+                            datalabels: {
+                                anchor: 'end',
+                                align: 'top',
+                                font: {
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    }
+                });
+
+            },
+            failure: function () {
+                swal("Error!", "Error al construir gráfico", "error");
+            },
+            error: function () {
+
+                swal("Error!", "Error al construir gráfico", "error");
+
+            }
+        });
+
+        });
+
+    });
+
+
+    $(function () {
+
+        $("#HMCALCULO").click(function () {
+
+                $.ajax({
+            contentType: "application/json",
+            dataType: "json",
+            type: "GET",
+            url: '@Url.Action("MensualGameCalculo", "Medico",new {DNI =Model.DNI })',
+            success: function (response) {
+
+                if (window.graficaCalculo) {
+                    window.graficaCalculo.clear();
+                    window.graficaCalculo.destroy();
+                }
+                window.graficaCalculo = new Chart(document.getElementById("line-chart-calculo"), {
+                    type: 'line',
+                    data: {
+                        labels: response.periodos,
+                        datasets: [
+                            {
+                                data: response.valoresPuntaje,
+                                label: "Puntaje",
+                                borderColor: "#26C6DA",
+                                fill: false,
+                                datalabels: {
+                                    align: 'top',
+                                    backgroundColor: "#26C6DA",
+                                    color: "#FDFEFE",
+                                    borderRadius: 4,
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                }
+
+                            }, {
+                                data: response.valoresMeta,
+                                label: "Meta",
+                                borderColor: "#01579B",
+                                fill: false,
+                                borderDash: [7, 7],
+                                datalabels: {
+                                    display: false
+                                }
+                            }
+                        ]
+                    },
+                    options: {
+                        legend: { display: true },
+                        title: {
+                            display: true
+                        },
+                        scales: {
+                            yAxes: [{ ticks: { min: 0, max: 14 } }]
+                        },
+                        plugins: {
+                            datalabels: {
+                                anchor: 'end',
+                                align: 'top',
+                                font: {
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    }
+                });
+
+            },
+            failure: function () {
+                swal("Error!", "Error al construir gráfico", "error");
+            },
+            error: function () {
+
+                swal("Error!", "Error al construir gráfico", "error");
+
+            }
+                });
+
+        });
+
+    });
+
+
+    $(function () {
+
+        $("#UDMEMORIA").click(function () {
+
+            MemoriaUltimaMedición();
+        });
+
+    });
+
+
+    $(function () {
+
+        $("#USMEMORIA").click(function () {
+
+            $.ajax({
+            contentType: "application/json",
+            dataType: "json",
+            type: "GET",
+            url: '@Url.Action("DiarioGameMemoria", "Medico",new {DNI =Model.DNI })',
+            success: function (response) {
+
+
+
+                if (window.graficaMemoria) {
+                    window.graficaMemoria.clear();
+                    window.graficaMemoria.destroy();
+                }
+                window.graficaMemoria = new Chart(document.getElementById("line-chart-memoria"), {
+                    type: 'line',
+                    data: {
+                        labels: response.periodos,
+                        datasets: [
+                            {
+                                data: response.valoresPuntaje,
+                                label: "Puntaje",
+                                borderColor: "#26C6DA",
+                                fill: false,
+                                datalabels: {
+                                    align: 'top',
+                                    backgroundColor: "#26C6DA",
+                                    color: "#FDFEFE",
+                                    borderRadius: 4,
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                }
+
+                            }, {
+                                data: response.valoresMeta,
+                                label: "Meta",
+                                borderColor: "#01579B",
+                                fill: false,
+                                borderDash: [7, 7],
+                                datalabels: {
+                                    display: false
+                                }
+                            }
+                        ]
+                    },
+                    options: {
+                        legend: { display: true },
+                        title: {
+                            display: true
+                        },
+                        scales: {
+                            yAxes: [{ ticks: { min: 0, max: 14 } }]
+                        },
+                        plugins: {
+                            datalabels: {
+                                anchor: 'end',
+                                align: 'top',
+                                font: {
+                                    weight: 'bold'
+                                }
+                            }
+
+                        }
+                    }
+                });
+
+            },
+            failure: function () {
+                swal("Error!", "Error al construir gráfico", "error");
+            },
+            error: function () {
+
+                swal("Error!", "Error al construir gráfico", "error");
+
+            }
+            });
+
+
+        });
+
+    });
+
+
+    $(function () {
+
+        $("#HMMEMORIA").click(function () {
+
+            $.ajax({
+            contentType: "application/json",
+            dataType: "json",
+            type: "GET",
+            url: '@Url.Action("MensualGameMemoria", "Medico",new {DNI =Model.DNI })',
+            success: function (response) {
+
+
+
+                if (window.graficaMemoria) {
+                    window.graficaMemoria.clear();
+                    window.graficaMemoria.destroy();
+                }
+                window.graficaMemoria = new Chart(document.getElementById("line-chart-memoria"), {
+                    type: 'line',
+                    data: {
+                        labels: response.periodos,
+                        datasets: [
+                            {
+                                data: response.valoresPuntaje,
+                                label: "Puntaje",
+                                borderColor: "#26C6DA",
+                                fill: false,
+                                datalabels: {
+                                    align: 'top',
+                                    backgroundColor: "#26C6DA",
+                                    color: "#FDFEFE",
+                                    borderRadius: 4,
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                }
+
+                            }, {
+                                data: response.valoresMeta,
+                                label: "Meta",
+                                borderColor: "#01579B",
+                                fill: false,
+                                borderDash: [7, 7],
+                                datalabels: {
+                                    display: false
+                                }
+                            }
+                        ]
+                    },
+                    options: {
+                        legend: { display: true },
+                        title: {
+                            display: true
+                        },
+                        scales: {
+                            yAxes: [{ ticks: { min: 0, max: 14 } }]
+                        },
+                        plugins: {
+                            datalabels: {
+                                anchor: 'end',
+                                align: 'top',
+                                font: {
+                                    weight: 'bold'
+                                }
+                            }
+
+                        }
+                    }
+                });
+
+            },
+            failure: function () {
+                swal("Error!", "Error al construir gráfico", "error");
+            },
+            error: function () {
+
+                swal("Error!", "Error al construir gráfico", "error");
+
+                }
+
+            });
+        });
+
+    });
+
+
+</script>
+
+
+
+<script>
+
+     $(function () {
+
+        $("#UDPRESION").click(function () {
+            PresionArterialUltimaMedicion();
+        });
+     });
+
+ $(function () {
+
+        $("#USPRESION").click(function () {
+
+            $.ajax({
+            contentType: "application/json",
+            dataType: "json",
+            type: "GET",
+            url: '@Url.Action("PresionArterialDiario", "Medico",new {DNI =Model.DNI })',
+            success: function (response) {
+
+                if (window.graficaSistole) {
+                    window.graficaSistole.clear();
+                    window.graficaSistole.destroy();
+                }
+                window.graficaSistole =  new Chart(document.getElementById("line-chart-sistole"), {
+                    type: 'line',
+                    data: {
+                        labels: response.periodos,
+                        datasets: [
+                            {
+                                data: response.valoresSistole,
+                                label: "Sistole",
+                                borderColor: "#FF5733",
+                                fill: false,
+                                datalabels: {
+                                    align: 'top',
+                                    color: "#FDFEFE",
+                                    backgroundColor: "#EC7063",
+                                    borderRadius: 4,
+                                    font: {
+                                        weight: 'bold'
+
+                                    }
+                                }
+                            }
+                            ,
+                            {
+                                data: response.valoresMetaMinSistole,
+                                label: "Mín. Sístole",
+                                borderColor: "#17202A",
+                                fill: false,
+                                borderDash: [5, 5],
+                                datalabels: {
+                                    display: false
+                                }
+
+                            }
+                            ,
+                            {
+                                data: response.valoresMetaMaxSistole,
+                                label: "Máx. Sístole",
+                                borderColor: "#17202A",
+                                fill: false,
+                                borderDash: [5, 5],
+                                datalabels: {
+                                    display: false
+                                }
+
+                            }
+
+                        ]
+                    },
+                    options: {
+                        title: {
+                            display: true
+
+                        }, scales: {
+                            yAxes: [{ ticks: { min: 40, max: 180, stepSize: 20  } }]
+                        },
+                        responsive: true
+
+                    }
+                });
+
+                if (window.graficaDiastole) {
+                    window.graficaDiastole.clear();
+                    window.graficaDiastole.destroy();
+                }
+                window.graficaDiastole = new Chart(document.getElementById("line-chart-diastole"), {
+                    type: 'line',
+                    data: {
+                        labels: response.periodos,
+                        datasets: [
+                            {
+                                data: response.valoresDiastole,
+                                label: "Diastole",
+                                borderColor: "#3498DB",
+                                fill: false,
+                                datalabels: {
+                                    align: 'top',
+                                    color: "#FDFEFE",
+                                    backgroundColor: "#5DADE2",
+                                    borderRadius: 4,
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                }
+                            }
+                            ,
+                            {
+                                data: response.valoresMetaMinDiastole,
+                                label: "Mín. Diástole",
+                                borderColor: "#17202A",
+                                fill: false,
+                                borderDash: [5, 5],
+                                datalabels: {
+                                    display: false
+                                }
+                            }
+                            ,
+                            {
+                                data: response.valoresMetaMaxDiastole,
+                                label: "Máx. Diástole",
+                                borderColor: "#17202A",
+                                fill: false,
+                                borderDash: [5, 5],
+                                datalabels: {
+                                    display: false
+                                }
+                            }
+
+                        ]
+                    },
+                    options: {
+                        title: {
+                            display: true
+
+                        },
+                        scales: {
+                            yAxes: [{ ticks: { min: 40, max: 120, stepSize: 20  } }]
+                        },
+                        responsive: true
+
+                    }
+                });
+
+            },
+            failure: function () {
+                swal("Error!", "Error al construir gráfico", "error");
+            },
+            error: function () {
+
+                swal("Error!", "Error al construir gráfico", "error");
+
+            }
+        });
+
+
+        });
+ });
+
+
+
+
+    $(function () {
+
+        $("#HMPRESION").click(function () {
+
+            $.ajax({
+            contentType: "application/json",
+            dataType: "json",
+            type: "GET",
+            url: '@Url.Action("PresionArterialMensual", "Medico",new {DNI =Model.DNI })',
+            success: function (response) {
+
+                    if (window.graficaSistole) {
+                        window.graficaSistole.clear();
+                        window.graficaSistole.destroy();
+                    }
+                    window.graficaSistole = new Chart(document.getElementById("line-chart-sistole"), {
+                    type: 'line',
+                    data: {
+                        labels: response.periodos,
+                        datasets: [
+                            {
+                                data: response.valoresSistole,
+                                label: "Sistole",
+                                borderColor: "#FF5733",
+                                fill: false,
+                                datalabels: {
+                                    align: 'top',
+                                    color: "#FDFEFE",
+                                    backgroundColor: "#EC7063",
+                                    borderRadius: 4,
+                                    font: {
+                                        weight: 'bold'
+
+                                    }
+                                }
+                            }
+                            ,
+                            {
+                                data: response.valoresMetaMinSistole,
+                                label: "Mín. Sístole",
+                                borderColor: "#17202A",
+                                fill: false,
+                                borderDash: [5, 5],
+                                datalabels: {
+                                    display: false
+                                }
+
+                            }
+                            ,
+                            {
+                                data: response.valoresMetaMaxSistole,
+                                label: "Máx. Sístole",
+                                borderColor: "#17202A",
+                                fill: false,
+                                borderDash: [5, 5],
+                                datalabels: {
+                                    display: false
+                                }
+
+                            }
+
+                        ]
+                    },
+                    options: {
+                        title: {
+                            display: true
+
+                        }, scales: {
+                            yAxes: [{ ticks: { min: 40, max: 180, stepSize: 20  } }]
+                        },
+                        responsive: true
+
+                    }
+                });
+
+                if (window.graficaDiastole) {
+                    window.graficaDiastole.clear();
+                    window.graficaDiastole.destroy();
+                }
+                window.graficaDiastole = new Chart(document.getElementById("line-chart-diastole"), {
+                    type: 'line',
+                    data: {
+                        labels: response.periodos,
+                        datasets: [
+                            {
+                                data: response.valoresDiastole,
+                                label: "Diástole",
+                                borderColor: "#3498DB",
+                                fill: false,
+                                datalabels: {
+                                    align: 'top',
+                                    color: "#FDFEFE",
+                                    backgroundColor: "#5DADE2",
+                                    borderRadius: 4,
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                }
+                            }
+                            ,
+                            {
+                                data: response.valoresMetaMinDiastole,
+                                label: "Mín. Diástole",
+                                borderColor: "#17202A",
+                                fill: false,
+                                borderDash: [5, 5],
+                                datalabels: {
+                                    display: false
+                                }
+                            }
+                            ,
+                            {
+                                data: response.valoresMetaMaxDiastole,
+                                label: "Máx. Diástole",
+                                borderColor: "#17202A",
+                                fill: false,
+                                borderDash: [5, 5],
+                                datalabels: {
+                                    display: false
+                                }
+                            }
+
+                        ]
+                    },
+                    options: {
+                        title: {
+                            display: true
+
+                        },
+                        scales: {
+                            yAxes: [{ ticks: { min: 40, max: 120, stepSize: 20  } }]
+                        },
+                        responsive: true
+
+                    }
+                });
+
+            },
+            failure: function () {
+                swal("Error!", "Error al construir gráfico", "error");
+            },
+            error: function () {
+
+                swal("Error!", "Error al construir gráfico", "error");
+
+            }
+        });
+
+
+        });
+     });
+
+
+</script>
+
+
+<script>
+
+     $(function () {
+
+         $("#UDOXIGENO").click(function () {
+             OxigenacionUltimaMedicion();
+        });
+     });
+
+
+ $(function () {
+
+        $("#USOXIGENO").click(function () {
+
+            $.ajax({
+            contentType: "application/json",
+            dataType: "json",
+            type: "GET",
+            url: '@Url.Action("OxigenacionDiario", "Medico",new {DNI =Model.DNI })',
+            success: function (response) {
+
+
+                if (window.graficaOxigenacion) {
+                    window.graficaOxigenacion.clear();
+                    window.graficaOxigenacion.destroy();
+                }
+                window.graficaOxigenacion = new Chart(document.getElementById("line-chart-oxigenacion"), {
+                    type: 'line',
+                    data: {
+                        labels: response.periodos,
+                        datasets: [
+                            {
+                                data: response.valoresOxigenacion,
+                                label: "Oxigenación",
+                                borderColor: "#F5B041",
+                                fill: false,
+                                datalabels: {
+                                    align: 'top',
+                                    backgroundColor: "#F5B041",
+                                    color: "#FDFEFE",
+                                    borderRadius: 4,
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                }
+
+                            }, {
+                                data: response.valoresLimiteOxigenacion,
+                                label: "Límite",
+                                borderColor: "#17202A",
+                                fill: false,
+                                borderDash: [5, 5],
+                                datalabels: {
+                                    display: false
+                                }
+                            }
+                        ]
+                    },
+                    options: {
+
+                        title: {
+                            display: true
+
+                        },
+
+                        scales: {
+                            yAxes: [{ ticks: { min: 40, max: 120, stepSize: 20 } }]
+                        },
+                        responsive: true
+
+                    }
+                });
+            
+
+            },
+            failure: function () {
+                swal("Error!", "Error al construir gráfico", "error");
+            },
+            error: function () {
+
+                swal("Error!", "Error al construir gráfico", "error");
+
+            }
+        });
+
+
+        });
+ });
+
+
+
+
+    $(function () {
+
+        $("#HMOXIGENO").click(function () {
+
+            $.ajax({
+            contentType: "application/json",
+            dataType: "json",
+            type: "GET",
+            url: '@Url.Action("OxigenacionMensual", "Medico",new {DNI =Model.DNI })',
+            success: function (response) {
+
+                if (window.graficaOxigenacion) {
+                    window.graficaOxigenacion.clear();
+                    window.graficaOxigenacion.destroy();
+                }
+                window.graficaOxigenacion = new Chart(document.getElementById("line-chart-oxigenacion"), {
+                    type: 'line',
+                    data: {
+                        labels: response.periodos,
+                        datasets: [
+                            {
+                                data: response.valoresOxigenacion,
+                                label: "Oxigenación",
+                                borderColor: "#F5B041",
+                                fill: false,
+                                datalabels: {
+                                    align: 'top',
+                                    backgroundColor: "#F5B041",
+                                    color: "#FDFEFE",
+                                    borderRadius: 4,
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                }
+
+                            }, {
+                                data: response.valoresLimiteOxigenacion,
+                                label: "Límite",
+                                borderColor: "#17202A",
+                                fill: false,
+                                borderDash: [5, 5],
+                                datalabels: {
+                                    display: false
+                                }
+                            }
+                        ]
+                    },
+                    options: {
+
+                        title: {
+                            display: true
+
+                        },
+
+                        scales: {
+                            yAxes: [{ ticks: { min: 40, max: 120, stepSize: 20 } }]
+                        },
+                        responsive: true
+
+                    }
+                });
+
+
+            },
+            failure: function () {
+                swal("Error!", "Error al construir gráfico", "error");
+            },
+            error: function () {
+
+                swal("Error!", "Error al construir gráfico", "error");
+
+            }
+        });
+
+
+        });
+     });
+
+
+</script>
+
+<script>
+
+
+    $(function () {
+
+        $("#UDSUENIO").click(function () {
+            EstadoSuenioUltimaMedición();
+        });
+    });
+
+
+    $(function () {
+
+        $("#USSUENIO").click(function () {
+
+
+             $.ajax({
+                contentType: "application/json",
+                dataType: "json",
+                type: "GET",
+                url: '@Url.Action("EstadoSuenioDiario", "Medico",new {DNI =Model.DNI })',
+                success: function (response) {
+
+                    if (window.graficaSuenio) {
+                        window.graficaSuenio.clear();
+                        window.graficaSuenio.destroy();
+                    }
+                    window.graficaSuenio = new Chart(document.getElementById("bar-chart-suenio"), {
+                        type: 'bar',
+                        data: {
+                            labels: response.periodos,
+                            datasets: [
+                                {
+                                    label: "Despierto",
+                                    backgroundColor: "#01579B",
+                                    data: response.valoresDespierto
+                                },
+                                {
+                                    label: "Sueño ligero",
+                                    backgroundColor: "#8C9EFF",
+                                    data: response.valoresSuenioLigero
+                                },
+                                {
+                                    label: "Sueño profundo",
+                                    backgroundColor: "#4FC3F7",
+                                    data: response.valoresSuenioProfundo
+                                }
+                            ]
+                        },
+                        options: {
+                            legend: { display: true },
+                            title: {
+                                display: true
+                            },
+                            scales: {
+                                yAxes: [{ ticks: { min: 0, max: 18 } }]
+                            },
+                            plugins: {
+                                datalabels: {
+                                    anchor: 'end',
+                                    align: 'top',
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                }
+
+                            }
+                        }
+                    });
+
+                },
+                failure: function () {
+                    swal("Error!", "Error al construir gráfico", "error");
+                },
+                error: function () {
+
+                    swal("Error!", "Error al construir gráfico", "error");
+
+                }
+            });
+        });
+    });
+
+
+    $(function () {
+
+        $("#HMSUENIO").click(function () {
+
+
+             $.ajax({
+                contentType: "application/json",
+                dataType: "json",
+                type: "GET",
+                url: '@Url.Action("EstadoSuenioMensual", "Medico",new {DNI =Model.DNI })',
+                success: function (response) {
+
+                    if (window.graficaSuenio) {
+                        window.graficaSuenio.clear();
+                        window.graficaSuenio.destroy();
+                    }
+                    window.graficaSuenio = new Chart(document.getElementById("bar-chart-suenio"), {
+                        type: 'bar',
+                        data: {
+                            labels: response.periodos,
+                            datasets: [
+                                {
+                                    label: "Despierto",
+                                    backgroundColor: "#01579B",
+                                    data: response.valoresDespierto
+                                },
+                                {
+                                    label: "Sueño ligero",
+                                    backgroundColor: "#8C9EFF",
+                                    data: response.valoresSuenioLigero
+                                },
+                                {
+                                    label: "Sueño profundo",
+                                    backgroundColor: "#4FC3F7",
+                                    data: response.valoresSuenioProfundo
+                                }
+                            ]
+                        },
+                        options: {
+                            legend: { display: true },
+                            title: {
+                                display: true
+                            },
+                            scales: {
+                                yAxes: [{ ticks: { min: 0, max: 18 } }]
+                            },
+                            plugins: {
+                                datalabels: {
+                                    anchor: 'end',
+                                    align: 'top',
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                }
+
+                            }
+                        }
+                    });
+
+                },
+                failure: function () {
+                    swal("Error!", "Error al construir gráfico", "error");
+                },
+                error: function () {
+
+                    swal("Error!", "Error al construir gráfico", "error");
+
+                }
+            });
+
+        });
+    });
+
+</script>

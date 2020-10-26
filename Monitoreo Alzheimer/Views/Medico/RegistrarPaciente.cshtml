@@ -1,0 +1,439 @@
+﻿
+@model Dominio.Entity.Paciente
+
+
+
+@if (ViewBag.Indicador == 1)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            swal("Buen trabajo!", "Registro realizado con exito! ", "success");
+        };
+    </script>
+
+}
+else if (ViewBag.Indicador == 2)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            swal("Advertencia!", "El paciente ya se encuentra registrado!", "warning");
+        };
+    </script>
+}
+else if (ViewBag.Indicador == 3)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            swal("Error!", "Servicio no disponible!", "error");
+        };
+    </script>
+}
+
+
+<div class="row">
+
+    <div class="col-lg-12">
+
+        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Registro del paciente</h3>
+
+    </div>
+
+</div>
+
+<br />
+
+
+@using (Html.BeginForm("RegistrarPaciente", "Medico", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header alert-warning">
+                    <h5 class="card-title">Datos del paciente</h5>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.Label("Nombres:")
+                                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Nombres", @required = "required", @maxlength = "20" } })
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.Label("Apellidos:")
+                                @Html.EditorFor(model => model.apellido, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Apellidos", @required = "required", @maxlength = "20" } })
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.Label("Edad:")
+                                @Html.EditorFor(model => model.edad, new { htmlAttributes = new { @class = "form-control", @type = "number", @placeholder = "Edad", @required = "required", @min = 18, @max = 100 }  })
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.Label("DNI:")
+                                @Html.EditorFor(model => model.DNI, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "DNI", @required = "required", @minlength = "8", @maxlength = "8" } })
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.Label("Fecha de nacimiento:")
+                                @Html.EditorFor(model => model.fechaNacimiento, new { htmlAttributes = new { @class = "form-control", @type = "date", @placeholder = "Fecha nacimiento", @required = "required" } })
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.Label("Distrito de residencia:")
+                                @Html.DropDownListFor(x => x.distrito, new SelectListItem[]{
+                                                           new SelectListItem() {Text = "Ancón", Value="Ancón"},
+                                                           new SelectListItem() {Text = "Ate", Value="Ate"},
+                                                           new SelectListItem() {Text = "Barranco", Value="Barranco"},
+                                                           new SelectListItem() {Text = "Bellavista", Value="Bellavista"},
+                                                           new SelectListItem() {Text = "Breña", Value="Breña"},
+                                                           new SelectListItem() {Text = "Callao", Value="Callao"},
+                                                           new SelectListItem() {Text = "Carabayllo", Value="Carabayllo"},
+                                                           new SelectListItem() {Text = "Carmen de La Legua", Value="Carmen de La Legua"},
+                                                           new SelectListItem() {Text = "Chaclacayo", Value="Chaclacayo"},
+                                                           new SelectListItem() {Text = "Chorrillos", Value="Chorrillos"},
+                                                           new SelectListItem() {Text = "Cieneguilla", Value="Cieneguilla"},
+                                                           new SelectListItem() {Text = "Comas", Value="Comas"},
+                                                           new SelectListItem() {Text = "El Agustino", Value="El Agustino"},
+                                                           new SelectListItem() {Text = "Independencia", Value="Independencia"},
+                                                           new SelectListItem() {Text = "Jesús María", Value="Jesús María"},
+                                                           new SelectListItem() {Text = "La Molina", Value="La Molina"},
+                                                           new SelectListItem() {Text = "La Perla", Value="La Perla"},
+                                                           new SelectListItem() {Text = "La Punta", Value="La Punta"},
+                                                           new SelectListItem() {Text = "La Victoria", Value="La Victoria"},
+                                                           new SelectListItem() {Text = "Lima", Value="Lima"},
+                                                           new SelectListItem() {Text = "Lince", Value="Lince"},
+                                                           new SelectListItem() {Text = "Los Olivos", Value="Los Olivos"},
+                                                           new SelectListItem() {Text = "Lurigancho", Value="Lurigancho"},
+                                                           new SelectListItem() {Text = "Lurín", Value="Lurín"},
+                                                           new SelectListItem() {Text = "Magdalena del Mar", Value="Magdalena del Mar"},
+                                                           new SelectListItem() {Text = "Mi Perú", Value="Mi Perú"},
+                                                           new SelectListItem() {Text = "Miraflores", Value="Miraflores"},
+                                                           new SelectListItem() {Text = "Pachacámac", Value="Pachacámac"},
+                                                           new SelectListItem() {Text = "Pucusana", Value="Pucusana"},
+                                                           new SelectListItem() {Text = "Pueblo Libre", Value="Pueblo Libre"},
+                                                           new SelectListItem() {Text = "Puente Piedra", Value="Puente Piedra"},
+                                                           new SelectListItem() {Text = "Punta Hermosa", Value="Punta Hermosa"},
+                                                           new SelectListItem() {Text = "Punta Negra", Value="Punta Negra"},
+                                                           new SelectListItem() {Text = "Rímac", Value="Rímac"},
+                                                           new SelectListItem() {Text = "San Bartolo", Value="San Bartolo"},
+                                                           new SelectListItem() {Text = "San Borja", Value="San Borja"},
+                                                           new SelectListItem() {Text = "San Isidro", Value="San Isidro"},
+                                                           new SelectListItem() {Text = "San Juan de Lurigancho", Value="San Juan de Lurigancho"},
+                                                           new SelectListItem() {Text = "San Juan de Miraflores", Value="San Juan de Miraflores"},
+                                                           new SelectListItem() {Text = "San Luis", Value="San Luis"},
+                                                           new SelectListItem() {Text = "San Martín de Porres", Value="San Martín de Porres"},
+                                                           new SelectListItem() {Text = "San Miguel", Value="San Miguel"},
+                                                           new SelectListItem() {Text = "Santa Anita", Value="Santa Anita"},
+                                                           new SelectListItem() {Text = "Santa María del Mar", Value="Santa María del Mar"},
+                                                           new SelectListItem() {Text = "Santa Rosa", Value="Santa Rosa"},
+                                                           new SelectListItem() {Text = "Santiago de Surco", Value="Santiago de Surco"},
+                                                           new SelectListItem() {Text = "Surquillo", Value="Surquillo"},
+                                                           new SelectListItem() {Text = "Ventanilla", Value="Ventanilla"},
+                                                           new SelectListItem() {Text = "Villa El Salvador", Value="Villa El Salvador"},
+                                                           new SelectListItem() {Text = "Villa María del Triunfo", Value="Villa María del Triunfo"},
+                                                           new SelectListItem() {Text = "Otros - Provincia", Value="Otros - Provincia"}}, new { @class = "form-control", @id = "exampleFormControlSelect1" })
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.Label("Ultimo puntaje MMSE:")
+                                @Html.EditorFor(model => model.puntajeUltimoTestMMSE, new { htmlAttributes = new { @class = "form-control", @type = "number", @placeholder = "Ultimo Test MMSE", @required = "required" } })
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.Label("Fase enfermedad:")
+                                @Html.DropDownListFor(x => x.faseEnfermedad, new SelectListItem[]{
+                                           new SelectListItem() {Text = "Leve", Value="Leve"},
+                                           new SelectListItem() {Text = "Moderado", Value="Moderado"},
+                                           new SelectListItem() {Text = "Grave", Value="Grave"}}, new { @class = "form-control", @id = "exampleFormControlSelect1" })
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.Label("Correo:")
+                                @Html.EditorFor(model => model.correo, new { htmlAttributes = new { @class = "form-control", @type = "email", @placeholder = "Email", @maxlength = "100", @required = "required" } })
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header alert-warning">
+                    <h5 class="card-title">Datos del cuidador</h5>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+
+                                @Html.Label("DNI:")
+                              
+                                <div class="input-group-append">
+
+                                    @Html.EditorFor(model => model.DNICuidador, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "DNI", @required = "required", @minlength = "8", @maxlength = "8" } })
+
+                                    <input id="btnBuscador" name="btnBuscador" type="button" value="Buscar" class="btn btn-outline-success" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.Label("Nombres:")
+                                @Html.EditorFor(model => model.nombreCuidador, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Nombres", @required = "required", @maxlength = "20" } })
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.Label("Apellidos:")
+                                @Html.EditorFor(model => model.apellidoCuidador, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Apellidos", @required = "required", @maxlength = "20" } })
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.Label("Edad:")
+                                @Html.EditorFor(model => model.edadCuidador, new { htmlAttributes = new { @class = "form-control", @type = "number", @placeholder = "Edad", @required = "required", @min = 18, @max = 60 } })
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.Label("Distrito de residencia:")
+                                @Html.DropDownListFor(x => x.distritoCuidador, new SelectListItem[]{
+                                                           new SelectListItem() {Text = "Ancón", Value="Ancón"},
+                                                           new SelectListItem() {Text = "Ate", Value="Ate"},
+                                                           new SelectListItem() {Text = "Barranco", Value="Barranco"},
+                                                           new SelectListItem() {Text = "Bellavista", Value="Bellavista"},
+                                                           new SelectListItem() {Text = "Breña", Value="Breña"},
+                                                           new SelectListItem() {Text = "Callao", Value="Callao"},
+                                                           new SelectListItem() {Text = "Carabayllo", Value="Carabayllo"},
+                                                           new SelectListItem() {Text = "Carmen de La Legua", Value="Carmen de La Legua"},
+                                                           new SelectListItem() {Text = "Chaclacayo", Value="Chaclacayo"},
+                                                           new SelectListItem() {Text = "Chorrillos", Value="Chorrillos"},
+                                                           new SelectListItem() {Text = "Cieneguilla", Value="Cieneguilla"},
+                                                           new SelectListItem() {Text = "Comas", Value="Comas"},
+                                                           new SelectListItem() {Text = "El Agustino", Value="El Agustino"},
+                                                           new SelectListItem() {Text = "Independencia", Value="Independencia"},
+                                                           new SelectListItem() {Text = "Jesús María", Value="Jesús María"},
+                                                           new SelectListItem() {Text = "La Molina", Value="La Molina"},
+                                                           new SelectListItem() {Text = "La Perla", Value="La Perla"},
+                                                           new SelectListItem() {Text = "La Punta", Value="La Punta"},
+                                                           new SelectListItem() {Text = "La Victoria", Value="La Victoria"},
+                                                           new SelectListItem() {Text = "Lima", Value="Lima"},
+                                                           new SelectListItem() {Text = "Lince", Value="Lince"},
+                                                           new SelectListItem() {Text = "Los Olivos", Value="Los Olivos"},
+                                                           new SelectListItem() {Text = "Lurigancho", Value="Lurigancho"},
+                                                           new SelectListItem() {Text = "Lurín", Value="Lurín"},
+                                                           new SelectListItem() {Text = "Magdalena del Mar", Value="Magdalena del Mar"},
+                                                           new SelectListItem() {Text = "Mi Perú", Value="Mi Perú"},
+                                                           new SelectListItem() {Text = "Miraflores", Value="Miraflores"},
+                                                           new SelectListItem() {Text = "Pachacámac", Value="Pachacámac"},
+                                                           new SelectListItem() {Text = "Pucusana", Value="Pucusana"},
+                                                           new SelectListItem() {Text = "Pueblo Libre", Value="Pueblo Libre"},
+                                                           new SelectListItem() {Text = "Puente Piedra", Value="Puente Piedra"},
+                                                           new SelectListItem() {Text = "Punta Hermosa", Value="Punta Hermosa"},
+                                                           new SelectListItem() {Text = "Punta Negra", Value="Punta Negra"},
+                                                           new SelectListItem() {Text = "Rímac", Value="Rímac"},
+                                                           new SelectListItem() {Text = "San Bartolo", Value="San Bartolo"},
+                                                           new SelectListItem() {Text = "San Borja", Value="San Borja"},
+                                                           new SelectListItem() {Text = "San Isidro", Value="San Isidro"},
+                                                           new SelectListItem() {Text = "San Juan de Lurigancho", Value="San Juan de Lurigancho"},
+                                                           new SelectListItem() {Text = "San Juan de Miraflores", Value="San Juan de Miraflores"},
+                                                           new SelectListItem() {Text = "San Luis", Value="San Luis"},
+                                                           new SelectListItem() {Text = "San Martín de Porres", Value="San Martín de Porres"},
+                                                           new SelectListItem() {Text = "San Miguel", Value="San Miguel"},
+                                                           new SelectListItem() {Text = "Santa Anita", Value="Santa Anita"},
+                                                           new SelectListItem() {Text = "Santa María del Mar", Value="Santa María del Mar"},
+                                                           new SelectListItem() {Text = "Santa Rosa", Value="Santa Rosa"},
+                                                           new SelectListItem() {Text = "Santiago de Surco", Value="Santiago de Surco"},
+                                                           new SelectListItem() {Text = "Surquillo", Value="Surquillo"},
+                                                           new SelectListItem() {Text = "Ventanilla", Value="Ventanilla"},
+                                                           new SelectListItem() {Text = "Villa El Salvador", Value="Villa El Salvador"},
+                                                           new SelectListItem() {Text = "Villa María del Triunfo", Value="Villa María del Triunfo"},
+                                                           new SelectListItem() {Text = "Otros - Provincia", Value="Otros - Provincia"}}, new { @class = "form-control", @id = "exampleFormControlSelect1" })
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.Label("Correo:")
+                                @Html.EditorFor(model => model.correoCuidador, new { htmlAttributes = new { @class = "form-control", @type = "email", @placeholder = "Correo", @required = "required", @maxlength = "50" } })
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.Label("Fecha Nacimiento:")
+                                @Html.EditorFor(model => model.FechaCumpleCuidador, new { htmlAttributes = new { @class = "form-control", @type = "date",  @required = "required" } })
+
+
+                            </div>
+                        </div>
+                     
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.Comentario, new { htmlAttributes = new { @id= "Comentario", @class = "form-control", @readonly="readonly" } })
+                         
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header alert-warning">
+                    <h5 class="card-title">Datos generales</h5>
+                    <h6 class="card-subtitle">
+                        Estas fechas indican la vigencia del servicio del cuidador.
+                    </h6>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.Label("Fecha de inicio:")
+                                @Html.EditorFor(model => model.fechaInicio, new { htmlAttributes = new { @class = "form-control", @type = "date", @placeholder = "Fecha inicio", @required = "required" } })
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.Label("Fecha de fin:")
+                                @Html.EditorFor(model => model.fechaFin, new { htmlAttributes = new { @class = "form-control", @type = "date", @placeholder = "Fecha fin", @required = "required" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+    <br />
+    <div class="row">
+
+        <div class="col-lg-12">
+            <button type="submit" class="btn btn-danger" style="float:right">Guardar</button>
+        </div>
+
+        <script type="text/javascript" src="~/Content/ajax/jquery.min.js"></script>
+        <script type="text/javascript">
+
+            $(function () {
+                $("#btnBuscador").click(function () {
+
+                    var DNICuidador = $("#DNICuidador").val(); 
+
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("BuscarCuidador", "Medico")",
+                        data: { DNI: DNICuidador },
+                        dataType: "json",
+                        success: function (data) {
+
+                            if (data === 'undefined' || data === null) {
+
+                                $('#Comentario').val('El cuidador no se encuentra registrado');
+
+                            } else {
+                                $('#DNICuidador').val(data.DNICuidador);
+                                $('#nombreCuidador').val(data.nombreCuidador);
+                                $('#apellidoCuidador').val(data.apellidoCuidador);
+                                $('#edadCuidador').val(data.edadCuidador);
+                                $('#distritoCuidador').val(data.distritoCuidador);
+                                $('#correoCuidador').val(data.correoCuidador);
+
+
+
+
+                                $('#Comentario').val('El cuidador si se encuentra registrado.');
+                   
+
+                                var dateString = data.FechaCumpleCuidador.substr(6);
+                                var currentTime = new Date(parseInt(dateString));
+                                var month = ("0" + (currentTime.getMonth() + 1)).slice(-2);
+                                var day = ("0" + currentTime.getDate()).slice(-2);
+                                var year = currentTime.getFullYear();
+                                var newDate = year + '-' + month + '-' + day;
+                                document.getElementById("FechaCumpleCuidador").value = newDate;
+
+
+                                document.getElementById("FechaCumpleCuidador").readOnly = true;
+                                //document.getElementById("DNICuidador").readOnly = true;
+                                document.getElementById("nombreCuidador").readOnly = true;
+                                document.getElementById("apellidoCuidador").readOnly = true;
+                                document.getElementById("edadCuidador").readOnly = true;
+                    
+                                document.getElementById("correoCuidador").readOnly = true;
+
+                                $("#distritoCuidador").attr("disabled", "disabled");
+                     
+                           
+                            }
+                        },
+                        failure: function () {
+
+                            $('#Comentario').val('El cuidador no se encuentra registrado');
+                        },
+                        error: function () {
+
+                            $('#Comentario').val('El cuidador no se encuentra registrado');
+
+                        }
+                    });
+                });
+            });
+
+            
+        </script>
+    </div>
+}
+
+
